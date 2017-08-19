@@ -1,6 +1,6 @@
-package mwojcik.rss_customizer.rss
+package mwojcik.rss_customizer.rss.domain
 
-import mwojcik.rss_customizer.rss.Feed.Item
+import mwojcik.rss_customizer.rss.domain.Feed.Item
 
 case class Feed(title: String, items: List[Item], link: String)
 

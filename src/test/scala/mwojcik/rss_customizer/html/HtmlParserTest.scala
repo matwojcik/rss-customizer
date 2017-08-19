@@ -1,8 +1,8 @@
 package mwojcik.rss_customizer.html
 
 import mwojcik.rss_customizer.html.HtmlParser.{ArticleSelector, FeedParser, Selector}
-import mwojcik.rss_customizer.rss.Feed
-import mwojcik.rss_customizer.rss.Feed.Item
+import mwojcik.rss_customizer.rss.domain.Feed
+import mwojcik.rss_customizer.rss.domain.Feed.Item
 import org.scalatest.{FeatureSpec, GivenWhenThen, Matchers}
 
 class HtmlParserTest extends FeatureSpec with GivenWhenThen with Matchers {
@@ -23,7 +23,7 @@ class HtmlParserTest extends FeatureSpec with GivenWhenThen with Matchers {
         ))
 
       When("Parsing the file")
-      val feed = htmlParser.parse(fileName, feedParser)
+      val feed = htmlParser.parseFile(fileName, feedParser)
 
       Then("Feed should be extracted")
       feed shouldBe Feed(
