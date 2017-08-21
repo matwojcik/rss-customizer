@@ -2,6 +2,7 @@ package mwojcik.rss_customizer.rss.application
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import com.typesafe.scalalogging.StrictLogging
@@ -10,13 +11,14 @@ import mwojcik.rss_customizer.rss.domain.FeedRouter
 import mwojcik.rss_customizer.rss.feeds.Dilbert
 import pureconfig.loadConfig
 
-import scala.concurrent.duration._
 import scala.concurrent.Await
+import scala.concurrent.duration._
 import scala.language.postfixOps
 
-object Application extends App with StrictLogging{
+object Application extends App with StrictLogging {
   implicit val system = ActorSystem()
   implicit val materializer = ActorMaterializer()
+
   import system.dispatcher
 
   private val jsonToStringWithoutNullValuesPrinter = Printer(preserveOrder = true, dropNullKeys = true, indent = "").pretty _
@@ -32,13 +34,15 @@ object Application extends App with StrictLogging{
 
   try {
     logger.info("Application starting")
-
     val feedRouter = new FeedRouter(List(new Dilbert))
+    val healthCheck = new HealthCheck()
 
     val routes: Route = {
-     feedRouter.routes
+      feedRouter.routes ~ healthCheck.routes
     }
+
     Http().bindAndHandle(routes, config.http.host, config.http.port)
+
     logger.info(s"Started handling requests on ${config.http.address}")
   } catch {
     case t: Throwable =>
