@@ -36,7 +36,7 @@ class FeedRouter(feedFactories: List[FeedFactory])(implicit printer: Json => Str
                 {for (item <- feed.items) yield {
                     <item>
                       <title>
-                        {item.title}
+                        {if (item.title.isEmpty) "NoName" else item.title}
                       </title>
                       <description>
                         {Unparsed(item.description)}
