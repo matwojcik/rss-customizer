@@ -10,10 +10,10 @@ class Dilbert extends FeedFactory{
     parser.parseUrl("""http://dilbert.com/""", FeedParser(
       Selector("title"),
       ArticleSelector(
-        Selector(".comic-item"),
-        Selector(".comic-title-name"),
-        Selector(".img-comic-container"),
-        Selector(".img-comic-link")
+        articleSelector = Selector(query = ".comic-item"),
+        titleSelector = Selector(".comic-title-name"),
+        contentSelector = Selector(".img-comic-link"),
+        linkSelector = Selector(".img-comic-link")
       )
     ))
   }

@@ -25,7 +25,6 @@ class FeedRouter(feedFactories: List[FeedFactory])(implicit printer: Json => Str
             logger.debug(s"Feed items: ${feed.items.map(_.title)}")
             logger.trace(s"$feed")
 
-            
             <rss version="2.0">
               <channel>
                 <title>
@@ -34,8 +33,6 @@ class FeedRouter(feedFactories: List[FeedFactory])(implicit printer: Json => Str
                 <link>
                   {feed.link}
                 </link>
-                <lastBuildDate>{DateTime.now().toDateTimeISO}</lastBuildDate>
-                <pubDate>{DateTime.now().toDateTimeISO}</pubDate>
                 {for (item <- feed.items) yield {
                     <item>
                       <title>
@@ -44,6 +41,7 @@ class FeedRouter(feedFactories: List[FeedFactory])(implicit printer: Json => Str
                       <description>
                         {Unparsed(item.description)}
                       </description>
+                      <guid>{item.link}</guid>
                       <link>
                         {item.link}
                       </link>
