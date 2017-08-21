@@ -1,5 +1,7 @@
 import sbtassembly.MergeStrategy
 
+enablePlugins(JavaAppPackaging)
+
 organization := "mwojcik"
 name := "rss-customizer"
 version := "1.0-SNAPSHOT"
