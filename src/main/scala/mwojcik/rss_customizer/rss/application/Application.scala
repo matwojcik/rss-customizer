@@ -6,7 +6,6 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import com.typesafe.scalalogging.StrictLogging
-import io.circe.{Json, Printer}
 import mwojcik.rss_customizer.rss.domain.FeedRouter
 import mwojcik.rss_customizer.rss.feeds.Dilbert
 import pureconfig.loadConfig
@@ -16,24 +15,22 @@ import scala.concurrent.duration._
 import scala.language.postfixOps
 
 object Application extends App with StrictLogging {
-  implicit val system = ActorSystem()
-  implicit val materializer = ActorMaterializer()
+  implicit val system: ActorSystem = ActorSystem()
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   import system.dispatcher
 
-  private val jsonToStringWithoutNullValuesPrinter = Printer(preserveOrder = true, dropNullKeys = true, indent = "").pretty _
-  implicit val printer: Json => String = jsonToStringWithoutNullValuesPrinter
-
-  val config: RssCustomizerConfig = {
-    loadConfig[RssCustomizerConfig] match {
-      case Left(failures) =>
-        throw new ExceptionInInitializerError(s"Unable to resolve configuration: $failures")
-      case Right(conf) => conf
-    }
-  }
-
   try {
     logger.info("Application starting")
+
+    val config: RssCustomizerConfig = {
+      loadConfig[RssCustomizerConfig] match {
+        case Left(failures) =>
+          throw new ExceptionInInitializerError(s"Unable to resolve configuration: $failures")
+        case Right(conf) => conf
+      }
+    }
+
     val feedRouter = new FeedRouter(List(new Dilbert))
     val healthCheck = new HealthCheck()
 

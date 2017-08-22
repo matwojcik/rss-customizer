@@ -1,13 +1,13 @@
 package mwojcik.rss_customizer.rss.feeds
 import mwojcik.rss_customizer.html.HtmlParser
-import mwojcik.rss_customizer.html.HtmlParser.{ArticleSelector, FeedParser, Selector}
+import mwojcik.rss_customizer.html.HtmlParser.{ArticleSelector, FeedParserConfig, Selector}
 import mwojcik.rss_customizer.rss.domain.Feed
 
 class Dilbert extends FeedFactory{
   override def name: String = "dilbert"
   override def create: Feed = {
     val parser = new HtmlParser
-    parser.parseUrl("""http://dilbert.com/""", FeedParser(
+    parser.parseUrl("""http://dilbert.com/""", FeedParserConfig(
       Selector("title"),
       ArticleSelector(
         articleSelector = Selector(query = ".comic-item"),
