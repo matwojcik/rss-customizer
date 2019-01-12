@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import com.typesafe.scalalogging.StrictLogging
 import mwojcik.rss_customizer.rss.domain.FeedRouter
-import mwojcik.rss_customizer.rss.feeds.Dilbert
+import mwojcik.rss_customizer.rss.feeds.{Dilbert, ScalaTimes}
 import pureconfig.loadConfig
 
 import scala.concurrent.Await
@@ -31,7 +31,7 @@ object Application extends App with StrictLogging {
       }
     }
 
-    val feedRouter = new FeedRouter(List(new Dilbert))
+    val feedRouter = new FeedRouter(List(new Dilbert, new ScalaTimes))
     val healthCheck = new HealthCheck()
 
     val routes: Route = {

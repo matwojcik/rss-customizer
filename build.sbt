@@ -5,7 +5,7 @@ enablePlugins(JavaAppPackaging)
 organization := "mwojcik"
 name := "rss-customizer"
 version := "1.0-SNAPSHOT"
-scalaVersion := "2.11.11"
+scalaVersion := "2.12.8"
 
 val AkkaHttpVersion = "10.0.9"
 val ScalaTestVersion = "3.0.1"
