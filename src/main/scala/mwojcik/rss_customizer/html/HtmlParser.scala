@@ -28,7 +28,7 @@ class HtmlParser {
   private def parse(document: Browser#DocumentType, address: String, parser: FeedParserConfig) = {
     val (titleSelector, articleSelector) = (parser.titleSelector, parser.articleSelector)
     val articles = document >> elementList(articleSelector.articleSelector.query)
-    val items = articles map asItem(articleSelector)
+    val items = articles map asItem(articleSelector) filterNot(_.link.isEmpty)
     val title = document >> allText(titleSelector.query)
 
     Feed(title, items, address)
