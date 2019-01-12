@@ -13,7 +13,7 @@ class ScalaTimes extends FeedFactory{
       ArticleSelector(
         articleSelector = Selector(query = ".section-content"),
         titleSelector = Selector(".article-content a span strong span"),
-        contentSelector = Selector(".article-content span"),
+        contentSelector = Selector(".article-content > span > em"),
         linkSelector = Selector(".article-content a")
       )
     ))
